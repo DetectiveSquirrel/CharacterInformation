@@ -35,39 +35,39 @@ namespace CharacterInformation.Core
         public override void Render()
         {
             base.Render();
-            RighteousFirePanel();
+            DegenPanel();
         }
 
-        public void RighteousFirePanel()
+        public void DegenPanel()
         {
-            if (!Settings.RenderRighteousFire)
+            if (!Settings.RenderDegen)
                 return;
 
             var refBool = true;
-            ImGui.BeginWindow("RF Calculator", ref refBool, new ImVector2(200, 150), Settings.RenderRighteousFireLocked ? WindowFlags.NoCollapse | WindowFlags.NoScrollbar | WindowFlags.NoMove | WindowFlags.NoResize | WindowFlags.NoInputs | WindowFlags.NoBringToFrontOnFocus | WindowFlags.NoTitleBar | WindowFlags.NoFocusOnAppearing : WindowFlags.Default | WindowFlags.NoTitleBar | WindowFlags.ResizeFromAnySide);
+            ImGui.BeginWindow("Degen Calculator", ref refBool, new ImVector2(200, 150), Settings.RenderDegenLocked ? WindowFlags.NoCollapse | WindowFlags.NoScrollbar | WindowFlags.NoMove | WindowFlags.NoResize | WindowFlags.NoInputs | WindowFlags.NoBringToFrontOnFocus | WindowFlags.NoTitleBar | WindowFlags.NoFocusOnAppearing : WindowFlags.Default | WindowFlags.NoTitleBar | WindowFlags.ResizeFromAnySide);
 
-            double FinalRFCalculation = -TryGetStat(GameStat.TotalNonlethalDamageTakenPerMinuteToEnergyShield) / 60;
+            double FinalDegenCalculation = -TryGetStat(GameStat.TotalNonlethalDamageTakenPerMinuteToEnergyShield) / 60;
             double FinalOtherSourceDegen = -TryGetStat(GameStat.TotalDamageTakenPerMinuteToEnergyShield) / 60;
             double FinalLifeRegen = TryGetStat(GameStat.LifeRegenerationRatePerMinute) / 60;
-            var FinalCombinedDegen = FinalRFCalculation + FinalOtherSourceDegen;
-            var FinalTotalRegen = FinalLifeRegen + FinalRFCalculation + FinalOtherSourceDegen;
+            var FinalCombinedDegen = FinalDegenCalculation + FinalOtherSourceDegen;
+            var FinalTotalRegen = FinalLifeRegen + FinalDegenCalculation + FinalOtherSourceDegen;
 
             var DegenString = $"Degen: {ToNiceString(FinalCombinedDegen)}";
-            if (Settings.RenderRighteousFireCalculations)
-                DegenString += " (" + ToNiceString(FinalRFCalculation) + "," + ToNiceString(FinalOtherSourceDegen) + ")";
+            if (Settings.RenderDegenCalculations)
+                DegenString += " (" + ToNiceString(FinalDegenCalculation) + "," + ToNiceString(FinalOtherSourceDegen) + ")";
 
             var RegenString = $"Regen: {ToNiceString(FinalLifeRegen)}";
 
             var FinalString = $"Final: {ToNiceString(FinalTotalRegen)}";
-            if (Settings.RenderRighteousFireCalculations)
+            if (Settings.RenderDegenCalculations)
                 FinalString += " (" + ToNiceString(FinalLifeRegen) + "," + ToNiceString(FinalCombinedDegen) + ")";
 
-            ImGui.BulletText("RF Calcuator");
-            if (Settings.RenderRighteousFireDegen)
+            ImGui.BulletText("Degen Calcuator");
+            if (Settings.RenderDegenDegen)
                 ImGui.Text(DegenString);
-            if (Settings.RenderRighteousFireRegen)
+            if (Settings.RenderDegenRegen)
                 ImGui.Text(RegenString);
-            if (Settings.RenderRighteousFireFinal)
+            if (Settings.RenderDegenFinal)
                 ImGui.Text(FinalString);
             ImGui.EndWindow();
         }
