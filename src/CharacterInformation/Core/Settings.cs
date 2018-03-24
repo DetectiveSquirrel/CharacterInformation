@@ -5,9 +5,9 @@ namespace CharacterInformation.Core
 {
     public class Settings : SettingsBase
     {
-        [Menu("Display Righteous Fire", 100)]
+        [Menu("Display Degen Module", 100)]
         public ToggleNode RenderDegen { get; set; } = true;
-        [Menu("Show Righteous Fire Calculation", 105, 100)]
+        [Menu("Show Calculation Chunks", 105, 100)]
         public ToggleNode RenderDegenCalculations {get; set; } = true;
         [Menu("Locked In Place", 104, 100)]
         public ToggleNode RenderDegenLocked { get; set; } = true;
