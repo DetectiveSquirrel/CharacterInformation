@@ -1,23 +1,24 @@
 ﻿using PoeHUD.Hud.Settings;
 using PoeHUD.Plugins;
-using ImGuiVector2 = System.Numerics.Vector2;
 
-namespace Test_Environment.Core
+namespace CharacterInformation.Core
 {
     public class Settings : SettingsBase
     {
-        public Settings()
-        {
-            ShowWindow = false;
-            var centerPos = BasePlugin.API.GameController.Window.GetWindowRectangle().Center;
-            LastSettingSize = new ImGuiVector2(620, 376);
-            LastSettingPos = new ImGuiVector2(centerPos.X - LastSettingSize.X / 2, centerPos.Y - LastSettingSize.Y / 2);
-        }
+        [Menu("Display Righteous Fire", 100)]
+        public ToggleNode RenderRighteousFire { get; set; } = true;
+        [Menu("Show Righteous Fire Calculation", 105, 100)]
+        public ToggleNode RenderRighteousFireCalculations {get; set; } = true;
+        [Menu("Locked In Place", 104, 100)]
+        public ToggleNode RenderRighteousFireLocked { get; set; } = true;
+        [Menu("Display Degen", 101, 100)]
+        public ToggleNode RenderRighteousFireDegen { get; set; } = true;
+        [Menu("Display Regen", 102, 100)]
+        public ToggleNode RenderRighteousFireRegen { get; set; } = true;
+        [Menu("Display Final", 103, 100)]
+        public ToggleNode RenderRighteousFireFinal { get; set; } = true;
 
-        [Menu("Show ImGui Settings")]
-        public ToggleNode ShowWindow { get; set; }
-
-        public ImGuiVector2 LastSettingPos { get; set; }
-        public ImGuiVector2 LastSettingSize { get; set; }
+        [Menu("Significant Digits", 200)]
+        public RangeNode<int> SignificantDigits { get; set; } = new RangeNode<int>(2, 0, 10);
     }
 }
