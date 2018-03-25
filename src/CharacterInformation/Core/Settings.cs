@@ -1,5 +1,6 @@
 ﻿using PoeHUD.Hud.Settings;
 using PoeHUD.Plugins;
+using SharpDX;
 
 namespace CharacterInformation.Core
 {
@@ -20,5 +21,11 @@ namespace CharacterInformation.Core
 
         [Menu("Significant Digits", 200)]
         public RangeNode<int> SignificantDigits { get; set; } = new RangeNode<int>(2, 0, 10);
+
+        public ToggleNode OverrideColors { get; set; } = false;
+        public Color DegenBackground { get; set; }
+        public Color DegenTitle { get; set; } = Color.White;
+        public Color DegenPositive { get; set; } = Color.White;
+        public Color DegenNegitive { get; set; } = Color.White;
     }
 }
