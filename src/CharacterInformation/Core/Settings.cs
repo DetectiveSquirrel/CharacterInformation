@@ -22,7 +22,7 @@ namespace CharacterInformation.Core
         [Menu("Significant Digits", 200)]
         public RangeNode<int> SignificantDigits { get; set; } = new RangeNode<int>(2, 0, 10);
 
-        public ToggleNode OverrideColors { get; set; } = false;
+        public ToggleNode OverrideColors { get; set; } = true;
         public Color DegenBackground { get; set; }
         public Color DegenTitle { get; set; } = Color.White;
         public Color DegenPositive { get; set; } = Color.White;
