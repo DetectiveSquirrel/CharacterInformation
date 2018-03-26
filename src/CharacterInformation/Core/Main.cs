@@ -5,12 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.Linq;
 using PoeHUD.Framework.Helpers;
 using PoeHUD.Hud.UI;
-using SharpDX;
 using Color = SharpDX.Color;
 using ImVector2 = System.Numerics.Vector2;
 using ImVector4 = System.Numerics.Vector4;
+using Vector4 = SharpDX.Vector4;
 
 namespace CharacterInformation.Core
 {
