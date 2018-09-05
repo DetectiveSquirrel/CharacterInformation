@@ -90,8 +90,8 @@ namespace CharacterInformation.Core
             var FinalCombinedDegen = FinalDegenCalculation + FinalOtherSourceDegen;
             var FinalTotalRegen = FinalLifeRegen + FinalDegenCalculation + FinalOtherSourceDegen;
 
-            if (FinalCombinedDegen < MaxDegenInInstance)
-                MaxDegenInInstance = FinalCombinedDegen;
+            if (FinalTotalRegen < MaxDegenInInstance)
+                MaxDegenInInstance = FinalTotalRegen;
 
             if (FinalTotalRegen > MaxRegenInInstance)
                 MaxRegenInInstance = FinalTotalRegen;
