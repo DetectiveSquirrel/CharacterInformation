@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using PoeHUD.Controllers;
 using PoeHUD.Framework.Helpers;
 using PoeHUD.Hud.UI;
 using Color = SharpDX.Color;
@@ -21,6 +22,8 @@ namespace CharacterInformation.Core
         public Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
         public string PluginVersion;
         public DateTime buildDate;
+        public double MaxRegenInInstance = 0.0;
+        public double MaxDegenInInstance = 0.0;
 
         public Main() { PluginName = "Character Information"; }
 
@@ -28,6 +31,13 @@ namespace CharacterInformation.Core
         {
             buildDate = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
             PluginVersion = $"{version}";
+            GameController.Area.OnAreaChange += OnAreaChange;
+        }
+
+        private void OnAreaChange(AreaController area)
+        {
+            MaxDegenInInstance = 0.0;
+            MaxRegenInInstance = 0.0;
         }
 
         public override void DrawSettingsMenu()
@@ -74,11 +84,17 @@ namespace CharacterInformation.Core
                 ImGui.PopStyleColor();
             }
 
-            double FinalDegenCalculation = -TryGetStat(GameStat.TotalNonlethalDamageTakenPerMinuteToEnergyShield) / 60;
-            double FinalOtherSourceDegen = -TryGetStat(GameStat.TotalDamageTakenPerMinuteToEnergyShield) / 60;
+            double FinalDegenCalculation = -TryGetStat(GameStat.TotalNonlethalFireDamageTakenPerMinute) / 60;
+            double FinalOtherSourceDegen = -TryGetStat(GameStat.TotalDamageTakenPerMinuteToLife) / 60;
             double FinalLifeRegen = TryGetStat(GameStat.LifeRegenerationRatePerMinute) / 60;
             var FinalCombinedDegen = FinalDegenCalculation + FinalOtherSourceDegen;
             var FinalTotalRegen = FinalLifeRegen + FinalDegenCalculation + FinalOtherSourceDegen;
+
+            if (FinalCombinedDegen < MaxDegenInInstance)
+                MaxDegenInInstance = FinalCombinedDegen;
+
+            if (FinalTotalRegen > MaxRegenInInstance)
+                MaxRegenInInstance = FinalTotalRegen;
 
             if (!Settings.OverrideColors)
             {
@@ -99,6 +115,11 @@ namespace CharacterInformation.Core
                     ImGui.Text(RegenString);
                 if (Settings.RenderDegenFinal)
                     ImGui.Text(FinalString);
+
+                if (Settings.RenderDegenInstance || Settings.RenderRegenInstance)
+                {
+                    ImGui.BulletText("Instance Totals");
+                }
             }
             else
             {
@@ -119,6 +140,16 @@ namespace CharacterInformation.Core
                     Coloredtext(RegenString);
                 if (Settings.RenderDegenFinal)
                     Coloredtext(FinalString);
+
+                if (Settings.RenderDegenInstance || Settings.RenderRegenInstance)
+                {
+                    ImGui.Spacing();
+                    ImGui.BulletText("Instance Totals");
+                    if (Settings.RenderDegenInstance)
+                        Coloredtext($"Degen: {ToNiceStringColor(MaxDegenInInstance)}");
+                    if (Settings.RenderRegenInstance)
+                        Coloredtext($"Regen: {ToNiceStringColor(MaxRegenInInstance)}");
+                }
             }
             ImGui.EndWindow();
         }

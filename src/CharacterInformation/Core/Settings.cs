@@ -18,6 +18,10 @@ namespace CharacterInformation.Core
         public ToggleNode RenderDegenRegen { get; set; } = true;
         [Menu("Display Final", 103, 100)]
         public ToggleNode RenderDegenFinal { get; set; } = true;
+        [Menu("Display Final Instance", 107, 100)]
+        public ToggleNode RenderDegenInstance { get; set; } = true;
+        [Menu("Display Regen Instance", 106, 100)]
+        public ToggleNode RenderRegenInstance { get; set; } = true;
 
         [Menu("Significant Digits", 200)]
         public RangeNode<int> SignificantDigits { get; set; } = new RangeNode<int>(2, 0, 10);
